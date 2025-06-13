@@ -1,20 +1,20 @@
-async function sendMessage() {
-  const input = document.getElementById('userInput').value;
-  const output = document.getElementById('responseOutput');
-  output.textContent = "Loading...";
+async function askChatGPT() {
+  const userInput = document.getElementById("input").value;
+  const output = document.getElementById("output");
+  output.textContent = "Thinking...";
 
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer YOUR_API_KEY"  // NEVER EXPOSE THIS PUBLICLY!
-    },
-    body: JSON.stringify({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: input }],
-    }),
-  });
+  try {
+    const res = await fetch("http://localhost:3000/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: userInput }),
+    });
 
-  const data = await response.json();
-  output.textContent = data.choices?.[0]?.message?.content || "Error.";
+    const data = await res.json();
+    output.textContent = data?.choices?.[0]?.message?.content || "No response.";
+  } catch (err) {
+    output.textContent = "Error: " + err.message;
+  }
 }
