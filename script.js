@@ -4,7 +4,7 @@ async function askChatGPT() {
   output.textContent = "Thinking...";
 
   try {
-    const res = await fetch("http://localhost:3000/chat", {
+    const res = await fetch("https://llm-jlil.onrender.com/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
